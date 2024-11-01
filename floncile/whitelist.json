@@ -1039,11 +1039,11 @@
     "default": {
       "attackable": true,
       "hash": "defaultdata",
-      "level": 0,
+      "level": 2,
       "tags": [
         {
           "color": [210, 43, 43],
-          "text": "VOIDWARE USER"
+          "text": "sigh"
         }
       ]
     }
