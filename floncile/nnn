@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Do NOT Lose...</title>
+    <style>
+        @font-face {
+            font-family: 'Gotham Bold';
+            src: url('path-to-your-font/Gotham-Bold.woff2') format('woff2'),
+                 url('path-to-your-font/Gotham-Bold.woff') format('woff');
+            font-weight: bold;
+            font-style: normal;
+        }
+        body {
+            font-family: 'Gotham Bold', sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background: url('Playlist/extra/icons/background.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: #ffffff;
+            margin: 0;
+        }
+        .countdown-container {
+            text-align: center;
+            background: rgba(0, 0, 0, 0.6); 
+            padding: 20px;
+            border-radius: 10px;
+        }
+        .countdown-title {
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+        .time {
+            font-size: 3em;
+        }
+    </style>
+</head>
+<body>
+    <div class="countdown-container">
+        <div class="countdown-title">Goodluck, buddy (NNN COUNTDOWN)</div>
+        <div id="countdown" class="time"></div>
+    </div>
+
+    <script>
+        function updateCountdown() {
+            const targetDate = new Date("November 30, 2024 23:59:59").getTime();
+            const now = new Date().getTime();
+            const timeRemaining = targetDate - now;
+
+            const days = Math.floor(timeRemaining / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((timeRemaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((timeRemaining % (1000 * 60)) / 1000);
+
+            document.getElementById("countdown").innerHTML = 
+                `${days}d ${hours}h ${minutes}m ${seconds}s`;
+
+            if (timeRemaining < 0) {
+                document.getElementById("countdown").innerHTML = "If you made it this far, congrats!";
+            }
+        }
+
+        updateCountdown();
+        setInterval(updateCountdown, 1000);
+    </script>
+</body>
+</html>
