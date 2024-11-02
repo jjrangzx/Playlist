@@ -162,7 +162,7 @@
         function generateLinks(count) {
             for (let i = 0; i < count; i++) {
                 const randomWord = generateRandomWord(16);
-                const giftLink = `**May not or may be valid** https://discord.gift/${randomWord}`;
+                const giftLink = `https://discord.gift/${randomWord}`;
 
                 if (!generatedLinks.has(giftLink)) {
                     generatedLinks.add(giftLink);
