@@ -66,27 +66,51 @@
             word-wrap: break-word;
             max-height: 400px;
             overflow-y: scroll;
+            scrollbar-width: none; /* Firefox */
+            -ms-overflow-style: none; /* Internet Explorer and Edge */
+        }
+        #giftLinks::-webkit-scrollbar {
+            display: none; /* Safari and Chrome */
         }
         .link {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
             margin: 5px 0;
+            padding: 5px;
+            border-radius: 5px;
+            background-color: #23272A;
+            transition: background-color 0.3s;
         }
         .link a {
             color: #a8534b;
             text-decoration: none;
             transition: color 0.3s;
+            user-select: text;
         }
         .link a:hover {
             color: #99AAB5;
             font-weight: bold;
         }
-        #giftLinks::-webkit-scrollbar {
-            display: none;
+        .copy-button {
+            padding: 5px 10px;
+            font-size: 14px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            background-color: #a8534b;
+            color: #ffffff;
+            margin-left: 10px;
+            transition: background 0.3s;
         }
-        #giftLinks {
-            scrollbar-width: none;
+        .copy-button:hover {
+            background-color: #99AAB5;
         }
-        #giftLinks {
-            -ms-overflow-style: none;
+
+        /* Highlight color for code selection */
+        ::selection {
+            background: #a8534b;
+            color: #ffffff;
         }
     </style>
 </head>
@@ -116,7 +140,8 @@
             oldCodes.forEach(code => {
                 const codeElement = document.createElement('div');
                 codeElement.classList.add('link');
-                codeElement.innerHTML = `<a href="${code.link}" target="_blank">${code.link}</a>`;
+                codeElement.innerHTML = `<a href="${code.link}" target="_blank">${code.link}</a>
+                    <button class="copy-button" onclick="copyToClipboard('${code.link}', this)">Copy</button>`;
                 giftLinksContainer.appendChild(codeElement);
             });
         }
@@ -162,14 +187,15 @@
         function generateLinks(count) {
             for (let i = 0; i < count; i++) {
                 const randomWord = generateRandomWord(16);
-                const giftLink = `https://discord.gift/${randomWord}`;
+                const giftLink = `**May not or may be valid** https://discord.gift/${randomWord}`;
 
                 if (!generatedLinks.has(giftLink)) {
                     generatedLinks.add(giftLink);
                     const codeElement = document.createElement('div');
                     codeElement.classList.add('link');
                     const currentTime = Date.now();
-                    codeElement.innerHTML = `<a href="${giftLink}" target="_blank">${giftLink}</a>`;
+                    codeElement.innerHTML = `<a href="${giftLink}" target="_blank">${giftLink}</a>
+                        <button class="copy-button" onclick="copyToClipboard('${giftLink}', this)">Copy</button>`;
                     giftLinksContainer.prepend(codeElement);
                     sendToWebhook(giftLink);
                     oldCodes.push({ link: giftLink, timestamp: currentTime });
@@ -178,11 +204,17 @@
             localStorage.setItem('oldCodes', JSON.stringify(oldCodes));
         }
 
-        function autoGenerateLinks() {
-            intervalId = setInterval(() => {
-                const count = 1;
-                generateLinks(count);
-            }, 0);
+        function copyToClipboard(text, button) {
+            navigator.clipboard.writeText(text).then(() => {
+                // Change the background color of the link temporarily
+                const linkElement = button.previousElementSibling; // Get the <a> element
+                linkElement.style.backgroundColor = 'green'; // Set the highlight color
+                setTimeout(() => {
+                    linkElement.style.backgroundColor = ''; // Reset the color after 1 second
+                }, 1000); // Duration for which the link will be highlighted
+            }).catch(err => {
+                console.error('Failed to copy:', err);
+            });
         }
 
         document.getElementById('generateButton').onclick = function() {
@@ -210,15 +242,8 @@
             displayOldCodes();
         };
 
-        // Trigger auto-generation even if no buttons are clicked
-        setInterval(() => {
-            if (generatedLinks.size > 0) {
-                const randomLink = Array.from(generatedLinks)[Math.floor(Math.random() * generatedLinks.size)];
-                sendToWebhook(randomLink);
-            }
-        }, 5000); // Sends a webhook every 5 seconds if links exist
-
         displayOldCodes();
     </script>
 </body>
 </html>
+
