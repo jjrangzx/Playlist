@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Powered by 6686</title>
+    <title>fixed 101</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400&display=swap" rel="stylesheet">
     <style>
         body {
@@ -45,15 +45,6 @@
         #trackList li:hover {
             background: #85cfd5;
         }
-        .remove {
-            font-size: 20px;
-            color: #ff5555;
-            cursor: pointer;
-            transition: transform 0.3s, color 0.3s;
-        }
-        .remove:hover {
-            transform: scale(1.5);
-        }
         .controls {
             margin: 20px 0;
         }
@@ -88,7 +79,7 @@
         }
         .progress {
             height: 10px;
-            background: #ffffff;
+            background: #659ca1;
             width: 0%;
             border-radius: 5px;
         }
@@ -127,49 +118,48 @@
         const durationTime = document.getElementById('durationTime');
         const progressContainer = document.getElementById('progressContainer');
         const trackList = [
-    { file: 'DieWithASmile.mp3', displayName: 'Die With A Smile', artist: '111111011101010110', duration: 200 },
-    { file: 'ThereIsALightThatNeverGoesOut.mp3', displayName: 'There Is a Light That Never Goes Out-2011 Rmaster', artist: '111111011101010110', duration: 242 },
-    { file: 'Lover.mp3', displayName: 'Lover', artist: '111111011101010110', duration: 240 },
-    { file: 'Cardigan.mp3', displayName: 'Cardigan', artist: '111111011101010110', duration: 200 },
-    { file: 'CruelSummer.mp3', displayName: 'Cruel Summer', artist: '111111011101010110', duration: 215 },
-    { file: 'BIRDSOFAFEATHER.mp3', displayName: 'BIRDS OF A FEATHER', artist: '111111011101010110', duration: 180 },
-    { file: 'SailorSong.mp3', displayName: 'Sailor Song', artist: '111111011101010110', duration: 190 },
-    { file: 'her.mp3', displayName: 'Her', artist: '111111011101010110', duration: 210 },
-    { file: 'GlueSong.mp3', displayName: 'Glue Song', artist: '111111011101010110', duration: 220 },
-    { file: 'CryingSeason.mp3', displayName: 'Crying Season', artist: '111111011101010110', duration: 230 },
-    { file: 'MoonlitFloor.mp3', displayName: 'Moonlit Floor', artist: '111111011101010110', duration: 240 },
-    { file: 'bloodline.mp3', displayName: 'bloodline', artist: '111111011101010110', duration: 250 },
-    { file: 'RealMan.mp3', displayName: 'Real Man', artist: '111111011101010110', duration: 260 },
-    { file: 'TakeMeHome.mp3', displayName: 'Take Me Home', artist: '111111011101010110', duration: 270 },
-    { file: 'Nonsense.mp3', displayName: 'Nonense', artist: '111111011101010110', duration: 280 },
-    { file: 'Espresso.mp3', displayName: 'Espresso', artist: '111111011101010110', duration: 290 },
-    { file: 'BedChem.mp3', displayName: 'Bed Chem', artist: '111111011101010110', duration: 300 },
-    { file: 'PleasePleasePlease.mp3', displayName: 'Please, Please, Please', artist: '111111011101010110', duration: 310 },
-    { file: 'AREWESTILLFRIENDS.mp3', displayName: 'ARE WE STILL FRIENDS', artist: '111111011101010110', duration: 320 },
-    { file: 'AgainAndAgain.mp3', displayName: 'Again and Again', artist: '111111011101010110', duration: 330 },
-    { file: 'SeeYouAgain.mp3', displayName: 'See You Again', artist: '111111011101010110', duration: 340 },
-    { file: 'NoticedILaughed.mp3', displayName: 'Noticed I Laugeed', artist: '111111011101010110', duration: 350 },
-    { file: 'Everyday.mp3', displayName: 'Everyday', artist: '111111011101010110', duration: 360 },
-    { file: 'APT.mp3', displayName: 'APT', artist: '111111011101010110', duration: 370 },
-    { file: 'CarryMeOut.mp3', displayName: 'Carry Me Out', artist: '111111011101010110', duration: 380 },
-    { file: 'missinsomething.mp3', displayName: 'missin something', artist: '111111011101010110', duration: 135 },
-    { file: 'DrunkWalkHome.mp3', displayName: 'Drunk Walk Home', artist: '111111011101010110', duration: 390 },
-    { file: 'FrancisForever.mp3', displayName: 'Francis Forever', artist: '111111011101010110', duration: 400 },
-    { file: 'IDontSmoke.mp3', displayName: "I Dont Smoke", artist: '111111011101010110', duration: 410 },
-    { file: 'IWill.mp3', displayName: 'I Will', artist: '111111011101010110', duration: 420 },
-    { file: 'JoblessMonday.mp3', displayName: 'Jobless Monday', artist: '111111011101010110', duration: 430 },
-    { file: 'LastWordsofaShootingStar.mp3', displayName: 'Last Words of a Shooting Star', artist: '111111011101010110', duration: 440 },
-    { file: 'LateSpring.mp3', displayName: 'Late Spring', artist: '111111011101010110', duration: 450 },
-    { file: 'TexasReznikoff.mp3', displayName: 'Texas Reznikoff', artist: '111111011101010110', duration: 460 },
-    { file: 'Townie.mp3', displayName: 'Townie', artist: '111111011101010110', duration: 470 },
-    { file: 'theboyismine.mp3', displayName: 'the boy is mine', artist: '111111011101010110', duration: 480 },
-    { file: 'YouBelongWithMe.mp3', displayName: 'You Belong With Me', artist: '111111011101010110', duration: 490 },
-    { file: 'ANightToRemember.mp3', displayName: 'A Night to Remember', artist: '111111011101010110', duration: 500 },
-    { file: 'YoureHereThatsTheThing.mp3', displayName: 'You’re Here, That’s The Thing', artist: '111111011101010110', duration: 510 },
-    { file: 'theperfectpair.mp3', displayName: 'the perfect pair', artist: '111111011101010110', duration: 520 }
+    { file: 'songs/DieWithASmile.mp3', displayName: 'Die With A Smile', artist: '111111011101010110', duration: 200 },
+    { file: 'songs/ThereIsALightThatNeverGoesOut.mp3', displayName: 'There Is a Light That Never Goes Out-2011 Rmaster', artist: '111111011101010110', duration: 242 },
+    { file: 'songs/Lover.mp3', displayName: 'Lover', artist: '111111011101010110', duration: 240 },
+    { file: 'songs/Cardigan.mp3', displayName: 'Cardigan', artist: '111111011101010110', duration: 200 },
+    { file: 'songs/CruelSummer.mp3', displayName: 'Cruel Summer', artist: '111111011101010110', duration: 215 },
+    { file: 'songs/BIRDSOFAFEATHER.mp3', displayName: 'BIRDS OF A FEATHER', artist: '111111011101010110', duration: 180 },
+    { file: 'songs/SailorSong.mp3', displayName: 'Sailor Song', artist: '111111011101010110', duration: 190 },
+    { file: 'songs/her.mp3', displayName: 'Her', artist: '111111011101010110', duration: 210 },
+    { file: 'songs/GlueSong.mp3', displayName: 'Glue Song', artist: '111111011101010110', duration: 220 },
+    { file: 'songs/CryingSeason.mp3', displayName: 'Crying Season', artist: '111111011101010110', duration: 230 },
+    { file: 'songs/MoonlitFloor.mp3', displayName: 'Moonlit Floor', artist: '111111011101010110', duration: 240 },
+    { file: 'songs/bloodline.mp3', displayName: 'bloodline', artist: '111111011101010110', duration: 250 },
+    { file: 'songs/RealMan.mp3', displayName: 'Real Man', artist: '111111011101010110', duration: 260 },
+    { file: 'songs/TakeMeHome.mp3', displayName: 'Take Me Home', artist: '111111011101010110', duration: 270 },
+    { file: 'songs/Nonsense.mp3', displayName: 'Nonense', artist: '111111011101010110', duration: 280 },
+    { file: 'songs/Espresso.mp3', displayName: 'Espresso', artist: '111111011101010110', duration: 290 },
+    { file: 'songs/BedChem.mp3', displayName: 'Bed Chem', artist: '111111011101010110', duration: 300 },
+    { file: 'songs/PleasePleasePlease.mp3', displayName: 'Please, Please, Please', artist: '111111011101010110', duration: 310 },
+    { file: 'songs/AREWESTILLFRIENDS.mp3', displayName: 'ARE WE STILL FRIENDS', artist: '111111011101010110', duration: 320 },
+    { file: 'songs/AgainAndAgain.mp3', displayName: 'Again and Again', artist: '111111011101010110', duration: 330 },
+    { file: 'songs/SeeYouAgain.mp3', displayName: 'See You Again', artist: '111111011101010110', duration: 340 },
+    { file: 'songs/NoticedILaughed.mp3', displayName: 'Noticed I Laugeed', artist: '111111011101010110', duration: 350 },
+    { file: 'songs/Everyday.mp3', displayName: 'Everyday', artist: '111111011101010110', duration: 360 },
+    { file: 'songs/APT.mp3', displayName: 'APT', artist: '111111011101010110', duration: 370 },
+    { file: 'songs/CarryMeOut.mp3', displayName: 'Carry Me Out', artist: '111111011101010110', duration: 380 },
+    { file: 'songs/missinsomething.mp3', displayName: 'missin something', artist: '111111011101010110', duration: 135 },
+    { file: 'songs/DrunkWalkHome.mp3', displayName: 'Drunk Walk Home', artist: '111111011101010110', duration: 390 },
+    { file: 'songs/FrancisForever.mp3', displayName: 'Francis Forever', artist: '111111011101010110', duration: 400 },
+    { file: 'songs/IDontSmoke.mp3', displayName: "I Dont Smoke", artist: '111111011101010110', duration: 410 },
+    { file: 'songs/IWill.mp3', displayName: 'I Will', artist: '111111011101010110', duration: 420 },
+    { file: 'songs/JoblessMonday.mp3', displayName: 'Jobless Monday', artist: '111111011101010110', duration: 430 },
+    { file: 'songs/LastWordsofaShootingStar.mp3', displayName: 'Last Words of a Shooting Star', artist: '111111011101010110', duration: 440 },
+    { file: 'songs/LateSpring.mp3', displayName: 'Late Spring', artist: '111111011101010110', duration: 450 },
+    { file: 'songs/TexasReznikoff.mp3', displayName: 'Texas Reznikoff', artist: '111111011101010110', duration: 460 },
+    { file: 'songs/Townie.mp3', displayName: 'Townie', artist: '111111011101010110', duration: 470 },
+    { file: 'songs/theboyismine.mp3', displayName: 'the boy is mine', artist: '111111011101010110', duration: 480 },
+    { file: 'songs/YouBelongWithMe.mp3', displayName: 'You Belong With Me', artist: '111111011101010110', duration: 490 },
+    { file: 'songs/ANightToRemember.mp3', displayName: 'A Night to Remember', artist: '111111011101010110', duration: 500 },
+    { file: 'songs/YoureHereThatsTheThing.mp3', displayName: 'You’re Here, That’s The Thing', artist: '111111011101010110', duration: 510 },
+    { file: 'songs/theperfectpair.mp3', displayName: 'the perfect pair', artist: '111111011101010110', duration: 520 }
 ];
 
-        
 
         let currentlyPlayingIndex = 0;
 
@@ -198,18 +188,16 @@
         function playTrack(index) {
             currentlyPlayingIndex = index;
             const track = trackList[index];
-            audioPlayer.src = `./songs/${track.file}`;
-            audioPlayer.play();
+            audioPlayer.src = track.file;
+            audioPlayer.play().catch(error => console.log('Error playing the song:', error));
             updateUI(track);
-            updateMediaSession(track); // Update media session on track change
+            updateMediaSession(track);
         }
 
         function updateUI(track) {
-            document.getElementById('nowPlaying').textContent = `premium`;
+            document.getElementById('nowPlaying').textContent = `v1.4.5.3`;
             togglePlayButton.textContent = '⏸️';
         }
-
-        // Media Session API integration
         function updateMediaSession(track) {
             if ('mediaSession' in navigator) {
                 navigator.mediaSession.metadata = new MediaMetadata({
@@ -227,11 +215,9 @@
       type: 'image/png'
     }
   ]
-});
-
+})
 
                 navigator.mediaSession.playbackState = audioPlayer.paused ? 'paused' : 'playing';
-
                 navigator.mediaSession.setActionHandler('play', () => audioPlayer.play());
                 navigator.mediaSession.setActionHandler('pause', () => audioPlayer.pause());
                 navigator.mediaSession.setActionHandler('previoustrack', () => skipBackButton.click());
@@ -276,6 +262,9 @@
             const secs = Math.floor(seconds % 60);
             return `${minutes}:${secs < 10 ? '0' : ''}${secs}`;
         }
+        audioPlayer.addEventListener('ended', () => {
+            skipForwardButton.click();
+        });
     </script>
 </body>
 </html>
